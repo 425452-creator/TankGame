@@ -1,21 +1,25 @@
 class Obstacle {
   //Member Variables
-  float x, y, w, h, health;
-  PImage itank;
+  float x, y, w, h, health, speed;
+  PImage obstacle;
 
   // Constructor
-  Obstacle(float x, float y, float w, float h, float health) {
+  Obstacle(float x, float y, float w, float h, float health, float speed) {
     this.x=x;
     this.y=y;
     this.w=w;
     this.h=h;
     this.health=health;
-    itank = loadImage("Millican_Tank.png");
+    this.speed=speed;
+    obstacle = loadImage("ob.png");
   }
   
    void display(){
-     fill (128);
-     rect (x,y,w,h);
+     image(obstacle, x, y);
+   }
+   
+   void move() {
+    x=x+speed;  
    }
    
 }

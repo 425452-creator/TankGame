@@ -1,13 +1,15 @@
 // 1 April 2026 | TankGame by Anders Millican
 Tank tank;
 PImage bg;
-Obstacle o1;
+Obstacle o1, o2, o3;
 
 void setup() {
   size (1000, 1000);
   bg= loadImage("bg.png");
   tank = new Tank();
-  o1 = new Obstacle(100, 100, 100, 20, 5);
+  o1 = new Obstacle(100, 100, 100, 20, 5, 5);
+  o2 = new Obstacle(100, 300, 100, 20, 5, 5);
+  o3 = new Obstacle(100, 500, 100, 20, 5, 5);
 }
 
 void draw () {
@@ -16,6 +18,11 @@ void draw () {
   image(bg, 0, 0);
   tank.display();
   o1.display();
+  o2.display();
+  o3.display();
+  o1.move();
+  o2.move();
+  o3.move();
 }
 
 void keyPressed() {
