@@ -11,7 +11,7 @@ class Obstacle {
     this.h=h;
     this.health=health;
     this.speed=speed;
-    obstacle = loadImage("ob.png");
+    obstacle = loadImage("obstacle.png");
   }
   
    void display(){
