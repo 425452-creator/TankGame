@@ -42,7 +42,16 @@ void scorePanel() {
 }
 
 void mousePressed() {
-  projectiles.add(new Projectile(tank.x, tank.y, 4, 10));
+  float dx = mouseX - tank.x;
+  float dy = mouseY - tank.y;
+  float mag = sqrt(dx*dx+dy*dy);
+  if(mag>0){
+   dx/=mag;
+   dy/=mag;
+   
+   float speed = 5;
+  projectiles.add(new Projectile(tank.x, tank.y, dx*speed, dy*speed));
+  }
 }
 
 void keyPressed() {
