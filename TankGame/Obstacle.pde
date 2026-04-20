@@ -13,13 +13,20 @@ class Obstacle {
     this.speed=speed;
     obstacle = loadImage("obstacle.png");
   }
-  
-   void display(){
-     image(obstacle, x, y);
-   }
-   
-   void move() {
-    x=x+speed;  
-   }
-   
+
+  void display() {
+    image(obstacle, x, y);
+  }
+
+  void move() {
+    x=x+speed;
+  }
+
+  boolean reachedEdge() {
+    if (x>width || x < -101 || y>height || y<0) {
+      return true;
+    } else {
+      return false;
+    }
+  }
 }

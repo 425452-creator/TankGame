@@ -3,7 +3,7 @@ class Projectile {
   float x, y, w, h, speed;
   float vx, vy;
   char dir;
-  
+
 
   // Constructor
   Projectile(float x, float y, float vx, float vy) {
@@ -16,20 +16,24 @@ class Projectile {
     speed = 10;
     dir = 'u';
   }
-  
-   void display(){
-     fill(255,0,0);
-     rect(x,y,w,h);
-   }
-   
-   void move() {
+
+  void display() {
+    fill(255, 0, 0);
+    rect(x, y, w, h);
+  }
+
+  void move() {
     x+=vx;
     y+=vy;
-    
-   }
-   
-   void fire() {
-     
-   }
-   
+  }
+
+  void fire() {
+  }
+  boolean reachedEdge() {
+    if (x>width || x < -101 || y>height || y<0) {
+      return true;
+    } else {
+      return false;
+    }
+  }
 }
