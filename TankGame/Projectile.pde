@@ -13,7 +13,7 @@ class Projectile {
     this.vy=vy;
     this.w=10;
     this.h=10;
-    speed = 10;
+    speed = 2;
     dir = 'u';
   }
 
@@ -23,8 +23,8 @@ class Projectile {
   }
 
   void move() {
-    x+=vx;
-    y+=vy;
+    x+=vx*speed;
+    y+=vy*speed;
   }
 
   void fire() {
@@ -32,6 +32,14 @@ class Projectile {
   boolean reachedEdge() {
     if (x>width || x < -101 || y>height || y<0) {
       return true;
+    } else {
+      return false;
+    }
+  }
+  boolean intersect(Obstacle o) {
+    float d= dist(x,y,o.x,o.y);
+    if (d<100) {
+    return true;
     } else {
       return false;
     }

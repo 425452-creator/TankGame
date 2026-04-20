@@ -20,12 +20,20 @@ class Tank {
     imageMode(CENTER);
     if (idir == 'w') {
       image (itank, x, y);
+      //fill(255,0,0);
+      //rect(x,y,10,10);
     } else if (idir == 'a') {
       image(itank, x, y) ;
+      //fill(255,0,0);
+      //rect(x,y,10,10);
     } else if (idir == 's') {
       image(itank, x, y);
+      //fill(255,0,0);
+      //rect(x,y,10,10);
     } else if (idir == 'd') {
       image(itank, x, y);
+      //fill(255,0,0);
+      //rect(x,y,10,10);
     }
   }
 

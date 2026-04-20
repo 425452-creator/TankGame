@@ -1,5 +1,6 @@
 // 1 April 2026 | TankGame by Anders Millican
 Tank tank;
+Timer objt;
 ArrayList<Projectile> projectiles = new ArrayList<Projectile>();
 ArrayList<Obstacle> obstacles = new ArrayList<Obstacle>();
 PImage bg;
@@ -9,14 +10,25 @@ void setup() {
   size (1000, 1000);
   bg= loadImage("bg.png");
   tank = new Tank();
+  objt = new Timer(1000);
+  objt.start();
 }
 
 void draw () {
-  obstacles.add(new Obstacle(int(random(0, width)), int(random(0, height)), 100, 100, 5, int(random(1, 5))));
 
   background (127);
   imageMode(CORNER);
   image(bg, 0, 0);
+  //Distribute object on timer
+  if (objt.isFinished()) {
+    obstacles.add(new Obstacle(int(random(-100, 20)), int(random(0, height)), 100, 100, 5, int(random(1, 5))));
+    obstacles.add(new Obstacle(int(random(-100, 20)), int(random(0, height)), 100, 100, 5, int(random(1, 5))));
+    obstacles.add(new Obstacle(int(random(-100, 20)), int(random(0, height)), 100, 100, 5, int(random(1, 5))));
+    obstacles.add(new Obstacle(int(random(-100, 20)), int(random(0, height)), 100, 100, 5, int(random(1, 5))));
+    obstacles.add(new Obstacle(int(random(-100, 20)), int(random(0, height)), 100, 100, 5, int(random(1, 5))));
+    objt.start();
+  }
+
   tank.display();
   scorePanel();
   for (int i = 0; i < projectiles.size(); i++) {
@@ -25,6 +37,18 @@ void draw () {
     p.move();
     if (p.reachedEdge()) {
       projectiles.remove(i);
+    }
+  }
+  for (int i=0; i<projectiles.size(); i++) {
+    Projectile p =projectiles.get(i);
+    for (int j = 0; j<obstacles.size(); j++) {
+      Obstacle o = obstacles.get(j);
+      if (p.intersect(o)) {
+        obstacles.remove(j);
+        score = score +=10;
+      }
+      p.display();
+      p.move();
     }
   }
   for (int i = 0; i < obstacles.size(); i++) {
