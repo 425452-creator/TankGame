@@ -19,7 +19,8 @@ class Obstacle {
   }
 
   void move() {
-    x=x+speed;
+    x=x+random(speed, 2*speed);
+    y=y+random(-speed, speed);
   }
 
   boolean reachedEdge() {
@@ -29,4 +30,5 @@ class Obstacle {
       return false;
     }
   }
+  
 }

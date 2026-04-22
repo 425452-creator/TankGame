@@ -1,6 +1,7 @@
 // 1 April 2026 | TankGame by Anders Millican
 Tank tank;
 Timer objt;
+float m;
 ArrayList<Projectile> projectiles = new ArrayList<Projectile>();
 ArrayList<Obstacle> obstacles = new ArrayList<Obstacle>();
 PImage bg;
@@ -15,7 +16,7 @@ void setup() {
 }
 
 void draw () {
-
+  m=1;
   background (127);
   imageMode(CORNER);
   image(bg, 0, 0);
@@ -47,7 +48,6 @@ void draw () {
         obstacles.remove(j);
         score = score +=10;
       }
-      p.display();
       p.move();
     }
   }
@@ -56,6 +56,12 @@ void draw () {
     o.display();
     o.move();
     if (o.reachedEdge()) {
+      obstacles.remove(i);
+    }
+    if (tank.intersect(o)) {
+      score=score-100;
+      tank.x=100;
+      tank.y=100;
       obstacles.remove(i);
     }
   }
@@ -68,6 +74,9 @@ void scorePanel() {
   fill(255);
   textSize(30);
   text("Score: " +score, width/2, 25);
+  if (score < -300) {
+    noLoop();
+  }
 }
 
 void mousePressed() {
@@ -80,6 +89,14 @@ void mousePressed() {
 
     float speed = 5;
     projectiles.add(new Projectile(tank.x, tank.y, dx*speed, dy*speed));
+    projectiles.add(new Projectile(tank.x+30, tank.y, dx*speed+m, dy*speed));
+    projectiles.add(new Projectile(tank.x-30, tank.y, dx*speed-m, dy*speed));
+    projectiles.add(new Projectile(tank.x, tank.y+30, dx*speed, dy*speed+m));
+    projectiles.add(new Projectile(tank.x, tank.y-30, dx*speed, dy*speed-m));
+    projectiles.add(new Projectile(tank.x+30, tank.y+30, dx*speed+m, dy*speed+m));
+    projectiles.add(new Projectile(tank.x-30, tank.y-30, dx*speed-m, dy*speed-m));
+    projectiles.add(new Projectile(tank.x+30, tank.y-30, dx*speed+m, dy*speed-m));
+    projectiles.add(new Projectile(tank.x-30, tank.y+30, dx*speed-m, dy*speed+m));
   }
 }
 

@@ -23,8 +23,8 @@ class Projectile {
   }
 
   void move() {
-    x+=vx*speed;
-    y+=vy*speed;
+    x+=vx * speed;
+    y+=vy * speed;
   }
 
   void fire() {

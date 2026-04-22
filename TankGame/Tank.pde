@@ -48,6 +48,14 @@ class Tank {
       x=x+speed;
     }
   }
+  boolean intersect(Obstacle o) {
+    float d= dist(x,y,o.x,o.y);
+    if (d<100) {
+    return true;
+    } else {
+      return false;
+    }
+  }
 
   void fire() {
   }
