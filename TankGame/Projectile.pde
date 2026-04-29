@@ -44,4 +44,12 @@ class Projectile {
       return false;
     }
   }
+  boolean intersect(PowerUp pu) {
+    float d= dist(x,y,pu.x,pu.y);
+    if (d<20) {
+    return true;
+    } else {
+      return false;
+    }
+  }
 }

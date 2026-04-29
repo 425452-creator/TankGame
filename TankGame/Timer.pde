@@ -1,4 +1,4 @@
-// by Daniel Shiffman
+ // by Daniel Shiffman
 
 class Timer {
 
@@ -17,6 +17,14 @@ class Timer {
 
   // The function isFinished() returns true if 5,000 ms have passed. 
   // The work of the timer is farmed out to this method.
+  boolean isRunning() {
+    int passedTime = millis()- savedTime;
+    if(passedTime< totalTime){
+      return true;
+    }else{
+      return false;
+    }
+  }
   boolean isFinished() { 
     // Check how much time has passed
     int passedTime = millis()- savedTime;
