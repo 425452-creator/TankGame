@@ -1,6 +1,6 @@
 // 1 April 2026 | TankGame by Anders Millican
 Tank tank;
-Timer objt, put, tt, bt;
+Timer objt, put, tt, bt, pt;
 
 float m;
 ArrayList<Projectile> projectiles = new ArrayList<Projectile>();
@@ -21,124 +21,139 @@ void setup() {
   put.start();
   tt = new Timer(100);
   bt= new Timer(100);
+  pt= new Timer(100);
 }
 
 void draw () {
-  m=1;
-  background (127);
-  imageMode(CORNER);
-  image(bg, 0, 0);
-  tank.display();
-  scorePanel();
+  if (millis()<3000) {
+    background(0, 100, 0);
+    textAlign(CENTER);
+    textSize(100);
+    text("Tank Game", width/2, 200);
+    textSize(50);
+    text("By Anders Millican", width/2, 300);
+    textSize(40);
+    text("WASD moves", width/2, 500);
+    text("Mouse shoots", width/2, 550);
+    text("-300 score=death", width/2, 600);
+  } else {
+    m=1;
+    background (127);
+    imageMode(CORNER);
+    image(bg, 0, 0);
+    tank.display();
+    scorePanel();
 
-  //Distribute object on timer
+    //Distribute object on timer
 
-  if (objt.isFinished()) {
-    obstacles.add(new Obstacle(int(random(-100, 20)), int(random(0, height)), 100, 100, 5, int(random(1, 5))));
-    obstacles.add(new Obstacle(int(random(-100, 20)), int(random(0, height)), 100, 100, 5, int(random(1, 5))));
-    obstacles.add(new Obstacle(int(random(-100, 20)), int(random(0, height)), 100, 100, 5, int(random(1, 5))));
-    obstacles.add(new Obstacle(int(random(-100, 20)), int(random(0, height)), 100, 100, 5, int(random(1, 5))));
-    obstacles.add(new Obstacle(int(random(-100, 20)), int(random(0, height)), 100, 100, 5, int(random(1, 5))));
-    objt.start();
-  }
-
-  //Projectiles
-
-  for (int i = 0; i < projectiles.size(); i++) {
-    Projectile p = projectiles.get(i);
-    p.display();
-    p.move();
-    if (p.reachedEdge()) {
-      projectiles.remove(i);
+    if (objt.isFinished()) {
+      obstacles.add(new Obstacle(int(random(-100, 20)), int(random(0, height)), 100, 100, 5, int(random(1, 5))));
+      obstacles.add(new Obstacle(int(random(-100, 20)), int(random(0, height)), 100, 100, 5, int(random(1, 5))));
+      obstacles.add(new Obstacle(int(random(-100, 20)), int(random(0, height)), 100, 100, 5, int(random(1, 5))));
+      obstacles.add(new Obstacle(int(random(-100, 20)), int(random(0, height)), 100, 100, 5, int(random(1, 5))));
+      obstacles.add(new Obstacle(int(random(-100, 20)), int(random(0, height)), 100, 100, 5, int(random(1, 5))));
+      objt.start();
     }
-  }
 
-  //Powerups
+    //Projectiles
 
-  for (int i = 0; i < powerups.size(); i++) {
-    PowerUp pu = powerups.get(i);
-    pu.display();
-  }
-
-  //Obstacles
-
-  for (int i = 0; i < obstacles.size(); i++) {
-    Obstacle o = obstacles.get(i);
-    o.display();
-    o.move();
-    if (o.reachedEdge()) {
-      obstacles.remove(i);
-    }
-    if (tank.intersect(o)) {
-      score=score-100;
-      tank.x=100;
-      tank.y=100;
-      obstacles.remove(i);
-    }
-  }
-
-  //Projectile-Obstacle collisions
-
-  for (int i=0; i<projectiles.size(); i++) {
-    Projectile p =projectiles.get(i);
-    for (int j = 0; j<obstacles.size(); j++) {
-      Obstacle o = obstacles.get(j);
-      if (p.intersect(o)) {
-        obstacles.remove(j);
-        score = score +=10;
-        powerups.add(new PowerUp(o.x, o.y ));
-      }
+    for (int i = 0; i < projectiles.size(); i++) {
+      Projectile p = projectiles.get(i);
+      p.display();
       p.move();
+      if (p.reachedEdge()) {
+        projectiles.remove(i);
+      }
     }
-  }
 
-  //Projectile/Tank-Powerup collsions
+    //Powerups
 
-  for (int i=0; i<projectiles.size(); i++) {
-    Projectile p =projectiles.get(i);
-    for (int j = 0; j<powerups.size(); j++) {
-      PowerUp pu = powerups.get(j);
-      if (p.intersect(pu)||tank.intersect(pu)) {
-        //turret
-        if (pu.type == 't') {
-          tt.start();
-          float x, y;
-            x=p.x;
-            y=p.y;
-          if (tt.isRunning()) {
-            println("tt.isRunning");
-            fill(0, 255, 0);
-            rect(p.x, p.y, 20, 20);
+    for (int i = 0; i < powerups.size(); i++) {
+      PowerUp pu = powerups.get(i);
+      pu.display();
+    }
 
-            float dx = mouseX - tank.x;
-            float dy = mouseY - tank.y;
-            float mag = sqrt(dx*dx+dy*dy);
-            
-            if (mag>0) {
-              dx/=mag;
-              dy/=mag;
-             
+    //Obstacles
 
-              float speed = 2;
-              projectiles.add(new Projectile(x,y, speed, speed));
-              projectiles.add(new Projectile(x,y, -speed, speed));
-              projectiles.add(new Projectile(x,y, -speed, -speed));
-              projectiles.add(new Projectile(x,y, speed, -speed));
-              
+    for (int i = 0; i < obstacles.size(); i++) {
+      Obstacle o = obstacles.get(i);
+      o.display();
+      o.move();
+      if (o.reachedEdge()) {
+        obstacles.remove(i);
+      }
+      if (tank.intersect(o)) {
+        score=score-100;
+        tank.x=100;
+        tank.y=100;
+        obstacles.remove(i);
+      }
+    }
+
+    //Projectile-Obstacle collisions
+
+    for (int i=0; i<projectiles.size(); i++) {
+      Projectile p =projectiles.get(i);
+      for (int j = 0; j<obstacles.size(); j++) {
+        Obstacle o = obstacles.get(j);
+        if (p.intersect(o)) {
+          obstacles.remove(j);
+          score = score +=10;
+          powerups.add(new PowerUp(o.x, o.y ));
+        }
+        p.move();
+      }
+    }
+
+    //Projectile/Tank-Powerup collsions
+
+    for (int i=0; i<projectiles.size(); i++) {
+      Projectile p =projectiles.get(i);
+      for (int j = 0; j<powerups.size(); j++) {
+        PowerUp pu = powerups.get(j);
+        if (p.intersect(pu)||tank.intersect(pu)) {
+          pt.start();
+          //turret
+          if (pt.isFinished()==false) {
+            if (pu.type == 't') {
+              tt.start();
+              float x, y;
+              x=p.x;
+              y=p.y;
+              if (tt.isRunning()==true) {
+                println("tt.isRunning");
+                fill(0, 255, 0);
+                rect(p.x, p.y, 20, 20);
+
+                float dx = mouseX - tank.x;
+                float dy = mouseY - tank.y;
+                float mag = sqrt(dx*dx+dy*dy);
+
+                if (mag>0) {
+                  dx/=mag;
+                  dy/=mag;
+
+
+                  float speed = 2;
+                  projectiles.add(new Projectile(x, y, speed, speed));
+                  projectiles.add(new Projectile(x, y, -speed, speed));
+                  projectiles.add(new Projectile(x, y, -speed, -speed));
+                  projectiles.add(new Projectile(x, y, speed, -speed));
+                }
+              }
+            }
+            if (pu.type=='s') {
+              bt.start();
+              if (bt.isFinished()==false) {
+                boom=true;
+              } else if (bt.isFinished()) {
+                boom=false;
+              }
             }
           }
+
+          powerups.remove(j);
         }
-        if(pu.type=='s'){
-          bt.start();
-          if(bt.isRunning()) {
-          boom=true;
-          } else {
-           boom=false;
-        }
-        }
-        
-        
-        powerups.remove(j);
       }
     }
   }
@@ -151,9 +166,20 @@ void scorePanel() {
   fill(255);
   textSize(30);
   text("Score: " +score, width/2, 25);
-  //if (score < -300) {
-  //  noLoop();
-  //}
+  if (score < -300) {
+    background(0, 0, 0);
+    textAlign(CENTER);
+    textSize(100);
+    fill(255);
+    text("You Lose", width/2, 200);
+    textSize(50);
+    text("By Anders Millican", width/2, 300);
+    textSize(40);
+    text("Score: -300 if you're here", width/2, 500);
+    text("Close the window", width/2, 550);
+    text("Restart from Processing", width/2, 600);
+    noLoop();
+  }
 }
 
 void mousePressed() {
@@ -165,20 +191,20 @@ void mousePressed() {
     dy/=mag;
 
     float speed = 5;
-    
-    if(boom==true){
-    projectiles.add(new Projectile(tank.x, tank.y, dx*speed, dy*speed));
-    projectiles.add(new Projectile(tank.x+30, tank.y, dx*speed+m, dy*speed));
-    projectiles.add(new Projectile(tank.x-30, tank.y, dx*speed-m, dy*speed));
-    projectiles.add(new Projectile(tank.x, tank.y+30, dx*speed, dy*speed+m));
-    projectiles.add(new Projectile(tank.x, tank.y-30, dx*speed, dy*speed-m));
-    projectiles.add(new Projectile(tank.x+30, tank.y+30, dx*speed+m, dy*speed+m));
-    projectiles.add(new Projectile(tank.x-30, tank.y-30, dx*speed-m, dy*speed-m));
-    projectiles.add(new Projectile(tank.x+30, tank.y-30, dx*speed+m, dy*speed-m));
-    projectiles.add(new Projectile(tank.x-30, tank.y+30, dx*speed-m, dy*speed+m));
+
+    if (boom==true) {
+      projectiles.add(new Projectile(tank.x, tank.y, dx*speed, dy*speed));
+      projectiles.add(new Projectile(tank.x+30, tank.y, dx*speed+m, dy*speed));
+      projectiles.add(new Projectile(tank.x-30, tank.y, dx*speed-m, dy*speed));
+      projectiles.add(new Projectile(tank.x, tank.y+30, dx*speed, dy*speed+m));
+      projectiles.add(new Projectile(tank.x, tank.y-30, dx*speed, dy*speed-m));
+      projectiles.add(new Projectile(tank.x+30, tank.y+30, dx*speed+m, dy*speed+m));
+      projectiles.add(new Projectile(tank.x-30, tank.y-30, dx*speed-m, dy*speed-m));
+      projectiles.add(new Projectile(tank.x+30, tank.y-30, dx*speed+m, dy*speed-m));
+      projectiles.add(new Projectile(tank.x-30, tank.y+30, dx*speed-m, dy*speed+m));
     } else {
       projectiles.add(new Projectile(tank.x, tank.y, dx*speed, dy*speed));
-  }
+    }
   }
 }
 
