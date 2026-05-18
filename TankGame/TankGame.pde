@@ -36,6 +36,8 @@ void draw () {
     text("WASD moves", width/2, 500);
     text("Mouse shoots", width/2, 550);
     text("-300 score=death", width/2, 600);
+    if(objt.isFinished()){
+    };
   } else {
     m=1;
     background (127);
